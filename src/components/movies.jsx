@@ -16,7 +16,7 @@ class Movies extends Component {
   };
 
   componentDidMount() {
-    const genres = [{ name: 'All Genres' }, ...getGenres()];
+    const genres = [{ _id: '', name: 'All Genres' }, ...getGenres()];
     this.setState({ movies: getMovies(), genres });
   }
 
@@ -24,15 +24,19 @@ class Movies extends Component {
     this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
-  handleDelete = (_id) => {
-    const movies = this.state.movies.filter((movie) => movie._id !== _id);
-    this.setState({ movies });
+  handleSort = (path) => {
+    console.log(path);
   };
 
   handleLike = (clickedMovie) => {
     const movies = [...this.state.movies];
     const index = movies.indexOf(clickedMovie);
     movies[index].liked = !movies[index].liked;
+    this.setState({ movies });
+  };
+
+  handleDelete = (_id) => {
+    const movies = this.state.movies.filter((movie) => movie._id !== _id);
     this.setState({ movies });
   };
 
@@ -72,6 +76,7 @@ class Movies extends Component {
           <p>Showing {filtered.length} movies in the database.</p>
           <MoviesTable
             movies={movies}
+            onSort={this.handleSort}
             onLike={this.handleLike}
             onDelete={this.handleDelete}
           />
