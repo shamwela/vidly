@@ -22,6 +22,7 @@ class MoviesTable extends Component {
           sortColumn={sortColumn}
           onSort={onSort}
         />
+        <TableBody data={movies} columns={columns} />
         <tbody>
           {movies.map((movie) => {
             const { _id, title, genre, numberInStock, dailyRentalRate } = movie;
