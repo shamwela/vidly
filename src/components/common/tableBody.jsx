@@ -8,10 +8,6 @@ class TableBody extends Component {
       return column.content(item);
     }
 
-    if (column.path === 'title') {
-      return <Link to={`/movies/${item._id}`}>{_.get(item, column.path)}</Link>;
-    }
-
     return _.get(item, column.path);
   };
 
