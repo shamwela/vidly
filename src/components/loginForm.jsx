@@ -7,11 +7,21 @@ class LoginForm extends Component {
       username: '',
       password: '',
     },
+    errors: {},
+  };
+
+  validate = () => {
+    return { username: 'Username is required.' };
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const username = this.username.current.value;
+
+    const errors = this.validate();
+    this.setState({ errors });
+    if (errors) return;
+
+    // Call the server
     console.log('Submitted');
   };
 
