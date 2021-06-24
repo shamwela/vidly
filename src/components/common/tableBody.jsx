@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
 class TableBody extends Component {
   renderCell = (item, column) => {
-    if (column.content) {
-      return column.content(item);
-    }
+    if (column.content) return column.content(item);
 
     return _.get(item, column.path);
   };
