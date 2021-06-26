@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const SearchBox = ({ value, onChange }) => {
   return (
@@ -8,7 +8,7 @@ const SearchBox = ({ value, onChange }) => {
       className="form-control my-3"
       placeholder="Search..."
       value={value}
-      onChange={e => onChange(e.currentTarget.value)}
+      onChange={(e) => onChange(e.currentTarget.value)}
     />
   );
 };
