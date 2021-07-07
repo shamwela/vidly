@@ -1,8 +1,8 @@
-import React from 'react';
-import Joi from 'joi-browser';
-import Form from './common/form';
-import { getMovie, saveMovie } from '../services/fakeMovieService';
-import { getGenres } from '../services/fakeGenreService';
+import React from 'react'
+import Joi from 'joi-browser'
+import Form from './common/form'
+import { getMovie, saveMovie } from '../services/movieService'
+import { getGenres } from '../services/genreService'
 
 class MovieForm extends Form {
   state = {
@@ -14,7 +14,7 @@ class MovieForm extends Form {
     },
     genres: [],
     errors: {},
-  };
+  }
 
   schema = {
     _id: Joi.string(),
@@ -30,19 +30,22 @@ class MovieForm extends Form {
       .min(0)
       .max(10)
       .label('Daily Rental Rate'),
-  };
+  }
 
-  componentDidMount() {
-    const genres = getGenres();
-    this.setState({ genres });
+  async componentDidMount() {
+    const { data: genres } = await getGenres()
+    this.setState({ genres })
 
-    const movieId = this.props.match.params.id;
-    if (movieId === 'new') return;
+    const movieId = this.props.match.params.id
+    if (movieId === 'new') return
 
-    const movie = getMovie(movieId);
-    if (!movie) return this.props.history.replace('/not-found');
-
-    this.setState({ data: this.mapToViewModel(movie) });
+    try {
+      const { data: movie } = await getMovie(movieId)
+      this.setState({ data: this.mapToViewModel(movie) })
+    } catch (error) {
+      if (error.response && error.response.status === 404)
+        this.props.history.replace('/not-found')
+    }
   }
 
   mapToViewModel = (movie) => {
@@ -52,14 +55,14 @@ class MovieForm extends Form {
       genreId: movie.genre._id,
       numberInStock: movie.numberInStock,
       dailyRentalRate: movie.dailyRentalRate,
-    };
-  };
+    }
+  }
 
   doSubmit = () => {
-    saveMovie(this.state.data);
+    saveMovie(this.state.data)
 
-    this.props.history.push('/movies');
-  };
+    this.props.history.push('/movies')
+  }
 
   render() {
     return (
@@ -73,8 +76,8 @@ class MovieForm extends Form {
           {this.renderButton('Save')}
         </form>
       </div>
-    );
+    )
   }
 }
 
-export default MovieForm;
+export default MovieForm
